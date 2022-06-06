@@ -69,16 +69,56 @@ console.log(
 
 // TODO:
 // 密码，6-12位，由数字字母和符号组成，必须包含至少两种字符，比如至少包含数字和小写字符
-const passwordReg = /^[0-9a-zA-Z]{6, 12}$/
+const passwordReg = /^[0-9a-zA-Z]{6, 12}$/;
 
 // 引用，可以提取和替换数据
-const d = '2021-09-23'
-const dReg = /^(\d{4})-(\d{2})-(\d{2})$/
-const res = d.replace(dReg, '$2/$3/$1') // $1,2,3分别代表第1，2，3个分组的值
-console.log(res);
+const d = "2021-09-23";
+const dReg = /^(\d{4})-(\d{2})-(\d{2})$/;
+const res = d.replace(dReg, "$2/$3/$1"); // $1,2,3分别代表第1，2，3个分组的值
+// console.log(res);
 
 // 反向引用， 指在正则表达式本身引用分组的结果，当然只能引用之前出现的分组
-const d1Reg = /\d{4}([-./])\d{2}\1\d{2}/g
+const d1Reg = /\d{4}([-./])\d{2}\1\d{2}/g;
 // console.log(d1Reg.test(d));
-const dates = '2021-09-98, 2021/09/90, 2021.03.09 2021-09/34'
-console.log(dates.match(d1Reg))  // -和/混用的无法识别
+const dates = "2021-09-98, 2021/09/90, 2021.03.09 2021-09/34";
+// console.log(dates.match(d1Reg))  // -和/混用的无法识别
+
+// 字符串trim方法模拟
+const trimReg = /(^\s+|\s+$)/g;
+const trimRes = "   str   ".replace(trimReg, "");
+// console.log(trimRes, trimRes.length);
+
+// 每个单词首字母转为大些
+const upperRes = "zhouming wang hhh"
+  .toLowerCase()
+  // .replace(/(?:^|\s)\w/g, c => c.toUpperCase());  // TODO:(?:^｜\s) 非捕获匹配，相当于下面的写法
+  .replace(/(^\w|\s\w)/g, c => c.toUpperCase());
+// console.log(upperRes);
+
+// 驼峰化
+// const camcelRes = "-moz-display".replace(/(-\w)/g, (a, b, index, d) => {
+//   // TODO:replace方法参数
+//   // console.log('a',a, b, c, d);
+//   if (index === 0) {
+//     return a[1];
+//   }
+//   return a[1].toUpperCase();
+// });
+const camcelRes = "-moz-display".replace(/[-_\s]+(.)?/g, (match, c) => {
+  console.log(c);
+  return c ? c.toUpperCase() : "";
+});
+// console.log(camcelRes);
+
+// 中划线，将所有空格， _，替换成-，大写字符改为小写并在前面加-
+// 注意如果既有_又是大写的时候会多出一个-
+const lineRes = "MozDisplay my_Style"
+  .replace(/[_\s]/g, "-")
+  .replace(/([A-Z])/g, "-$1")
+  .replace(/-{2,}/, "-")
+  .toLowerCase();
+console.log(lineRes);
+
+// TODO:
+// 转义HTML特殊字符为对应的实体
+// 匹配成对的标签
