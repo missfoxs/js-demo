@@ -1,13 +1,14 @@
+// 统计页面中最多的标签
 const topNode = document.documentElement;
 let result = [];
 function getChild(node) {
   let temp;
-  for (let i = 0; i < node.childNodes.length; i++) {
-    temp = node.childNodes[i];
-    if (temp.nodeType === 1) {
-      result.push(temp);
-    }
-    if (temp.childNodes.length) {
+  for (let i = 0; i < node.children.length; i++) {
+    temp = node.children[i];
+    // if (temp.nodeType === 1) {
+    result.push(temp);
+    // }
+    if (temp.hasChildNodes()) {
       getChild(temp);
     }
   }

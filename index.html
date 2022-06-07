@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>
+        <ul>
+          <li>4</li>
+          <li>5</li>
+          <li>6</li>
+          <div>hjhh</div>
+          <li>7</li>
+        </ul>
+        <ul>
+          <li>8</li>
+          <li>9</li>
+        </ul>
+      </li>
+    </ul>
+    <script>
+      const ulWrap = document.body.firstElementChild;
+
+      const textContents = [];
+      const liList = [];
+      function getLi(node) {
+        const { children } = node;
+        let currentNode;
+        for (let i = 0; i < children.length; i++) {
+          currentNode = children[i];
+          if (currentNode.tagName.toLowerCase() === "li") {
+            if (currentNode.children.length) {
+              Array.from(currentNode.children).forEach(dom => getLi(dom));
+            } else {
+              textContents.push(currentNode.textContent);
+              liList.push(currentNode);
+            }
+          } else {
+            if (currentNode.hasChildNodes()) {
+              getLi(currentNode);
+            }
+          }
+        }
+      }
+      getLi(ulWrap);
+      console.log(textContents, liList);
+    </script>
+    <script src="./morestTags.js"></script>
+  </body>
+</html>
