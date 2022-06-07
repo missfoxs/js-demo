@@ -60,7 +60,7 @@ function observeNavigationTiming() {
   console.log("performance", times);
 }
 
-// 监听资源加载完成
+// 监听资源加载
 function observeResource() {
   if (!PerformanceObserver) return;
   const observer = new PerformanceObserver(performance => {
@@ -80,9 +80,35 @@ function observeResource() {
   }); // 观察各种类型的事件
 }
 
+// 监听dom更新操作
+function observeMutation() {
+  const tag = ["img", "script", "css"];
+  const records = [];
+  const observer = new MutationObserver(mutations => {
+    console.log(mutations);
+    mutations.forEach(mutation => {
+      const { addedNodes = [] } = mutation;
+      addedNodes.forEach(node => {
+        const { nodeName } = node;
+        if (tag.indexOf(nodeName.toLowerCase()) > -1) {
+          node.addEventListener("load", () => {
+            records.push(node);
+          });
+        }
+      });
+      console.log("records", records);
+    });
+  });
+  observer.observe(window.document, {
+    subtree: true, // 目标以及目标的后代改变都会观察
+    childList: true, // 表示观察目标子节点的变化，比如添加或者删除目标子节点，不包括修改子节点以及子节点后代的变化
+  });
+}
+
 function init() {
   observeNavigationTiming();
   observeResource();
+  observeMutation();
 }
 
 init();
