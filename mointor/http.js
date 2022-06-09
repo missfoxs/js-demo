@@ -10,6 +10,7 @@
 function sendFullInfo() {}
 
 // 捕获js报错
+// 需要注意这里的错误信息如果来自不同源的脚本，则不会有详细的错误信息，需要在script标签上添加crossorigin特性。
 window.onerror = (msg, url, line, col, error) => {
   console.log(msg, url, line, col, error);
 };

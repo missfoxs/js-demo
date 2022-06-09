@@ -81,6 +81,7 @@ function observeResource() {
 }
 
 // 监听dom更新操作
+// TODO:缺少对iframe的监听，需要注意iframe不管加载成功与否都会触发onload事件
 function observeMutation() {
   const tag = ["img", "script", "css"];
   const records = [];
